@@ -1,4 +1,5 @@
 import { Outlet, NavLink, ScrollRestoration } from "react-router-dom";
+import styles from "../styles/layoutStyles/rootLayout.module.css";
 
 const RootLayout = () => {
   return (
@@ -31,11 +32,6 @@ const RootLayout = () => {
                     Home
                   </NavLink>
                 </li>
-                <li className="nav-item">
-                  <NavLink className="nav-link" to="/link">
-                    Link
-                  </NavLink>
-                </li>
                 <li className="nav-item dropdown">
                   <a
                     className="nav-link dropdown-toggle"
@@ -44,17 +40,25 @@ const RootLayout = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    Login
+                    Auth
                   </a>
                   <ul className="dropdown-menu">
                     <li>
-                      <NavLink className="dropdown-item" to="/login/staff">
+                      <NavLink className="dropdown-item" to="/auth/login/staff">
                         Staff
                       </NavLink>
                     </li>
                     <li>
-                      <NavLink className="dropdown-item" to="/login/student">
+                      <NavLink
+                        className="dropdown-item"
+                        to="/auth/login/student"
+                      >
                         Student
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink className="dropdown-item" to="/auth/logout">
+                        Logout
                       </NavLink>
                     </li>
                   </ul>
@@ -67,6 +71,14 @@ const RootLayout = () => {
       <main>
         <Outlet />
       </main>
+      <footer>
+        <div className="container row">
+          <div className="col-6 text-light">
+            <div className="display-6">InforMIT</div>
+            <div className="lead">MIT's own information exchange portal</div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

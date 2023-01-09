@@ -10,7 +10,7 @@ const staffSignUp = async (req, res) => {
       return res.status(400).json({ message: "Email already exists" });
     let staffIdAlreadyExists = await Staff.findOne({ staffId });
     if (staffIdAlreadyExists)
-      return res.status(400).json({ messgae: "Staff ID already exists" });
+      return res.status(400).json({ message: "Staff ID already exists" });
     const hashedPassword = await argon2.hash(password);
     const staff = await Staff.create({
       name,
@@ -33,21 +33,23 @@ const staffSignUp = async (req, res) => {
 
 const staffLogin = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    let staff = await Staff.findOne({ email });
+    const { staffId, password } = req.body;
+    let staff = await Staff.findOne({ staffId });
     if (!staff) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     if (await argon2.verify(staff.password, password)) {
       return res.status(200).json({
-        email,
+        email: staff.email,
         token: generateToken(staff._id),
+        userType: "staff",
         message: "Staff Login successful",
       });
     } else {
       return res.status(400).json({ message: "Invalid credentials" });
     }
-  } catch {
+  } catch (err) {
+    console.log(err);
     return res.status(500).json({ message: "Something went wrong" });
   }
 };

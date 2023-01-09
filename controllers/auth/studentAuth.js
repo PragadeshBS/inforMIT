@@ -4,7 +4,7 @@ const Student = require("../../models/Student");
 
 const studentSignUp = async (req, res) => {
   try {
-    const { name, registerNo, department, email, password } = req.body;
+    const { name, registerNo, department, email, year, password } = req.body;
     let emailAlreadyExists = await Student.findOne({ email });
     if (emailAlreadyExists)
       return res.status(400).json({ message: "Email already exists" });
@@ -19,6 +19,7 @@ const studentSignUp = async (req, res) => {
       registerNo,
       department,
       email,
+      year,
       password: hashedPassword,
     });
     return res.status(200).json({
@@ -35,14 +36,15 @@ const studentSignUp = async (req, res) => {
 
 const studentLogin = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    let student = await Student.findOne({ email });
+    const { registerNo, password } = req.body;
+    let student = await Student.findOne({ registerNo });
     if (!student) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
     if (await argon2.verify(student.password, password)) {
       return res.status(200).json({
-        email,
+        email: student.email,
+        userType: "student",
         token: generateToken(student._id),
         message: "Student login successful",
       });
