@@ -2,8 +2,19 @@ import { useState } from "react";
 import axios from "axios";
 import CheckboxTree from "react-checkbox-tree";
 import InputWithLabel from "../../components/form/InputWithLabel";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Send = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user || user.userType !== "staff") {
+      navigate("/");
+    }
+  }, []);
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 

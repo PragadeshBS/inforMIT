@@ -1,7 +1,26 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import { Outlet, NavLink, ScrollRestoration } from "react-router-dom";
-import styles from "../styles/layoutStyles/rootLayout.module.css";
+import styles from "../styles/layoutStyles/RootLayout.module.css";
 
 const RootLayout = () => {
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [userType, setUserType] = useState(null);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    setUser(user);
+    if (user) {
+      setUserLoggedIn(true);
+      if (user.userType === "staff") {
+        setUserType("staff");
+      } else {
+        setUserType("student");
+      }
+    } else {
+      setUserLoggedIn(false);
+    }
+  }, []);
   return (
     <div className="root-layout">
       <ScrollRestoration />
@@ -32,6 +51,24 @@ const RootLayout = () => {
                     Home
                   </NavLink>
                 </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    aria-current="page"
+                    to="/profile"
+                  >
+                    Profile
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link"
+                    aria-current="page"
+                    to="/message/send"
+                  >
+                    New Announcement
+                  </NavLink>
+                </li>
                 <li className="nav-item dropdown">
                   <a
                     className="nav-link dropdown-toggle"
@@ -40,7 +77,7 @@ const RootLayout = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    Auth
+                    {userLoggedIn ? user.email : "Login"}
                   </a>
                   <ul className="dropdown-menu">
                     <li>
@@ -68,14 +105,22 @@ const RootLayout = () => {
           </div>
         </nav>
       </header>
-      <main>
+      <main className="my-3 py-3">
         <Outlet />
       </main>
       <footer>
-        <div className="container row">
-          <div className="col-6 text-light">
-            <div className="display-6">InforMIT</div>
-            <div className="lead">MIT's own information exchange portal</div>
+        <div className="text-light row py-5">
+          <div className="col-6">
+            <div className="ms-3 display-4">InforMIT</div>
+            <div className="ms-3 lead">
+              MIT's own information exchange portal
+            </div>
+          </div>
+          <div className="col-6">
+            <div className="me-3 text-end">
+              <p className="fs-5">Madras Institute of Technology</p>
+              <p className="fs-6">Chromepet, Chennai - 44</p>
+            </div>
           </div>
         </div>
       </footer>

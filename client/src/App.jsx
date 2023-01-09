@@ -59,7 +59,9 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  axios.defaults.baseURL = `http://localhost:5000`;
+  if (window.location.href.indexOf("localhost") !== -1)
+    axios.defaults.baseURL = `http://localhost:5000`;
+  else axios.defaults.baseURL = "/";
   return <RouterProvider router={router} />;
 }
 
