@@ -1,13 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [userType, setUserType] = useState("");
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    const { email, userType } = JSON.parse(localStorage.getItem("user"));
+    const user = localStorage.getItem("user");
+    if (!user) {
+      navigate("/");
+      return;
+    }
+    const { email, userType } = JSON.parse(user);
     setUserType(userType);
     axios
       .get("/api/user/get-profile", {
