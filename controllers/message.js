@@ -13,7 +13,7 @@ const sendMessage = async (req, res) => {
       forStudents,
       title,
       content,
-      attachments,
+      attachment,
     } = req.body;
     const newMessage = new Message({
       sender,
@@ -23,7 +23,7 @@ const sendMessage = async (req, res) => {
       forStudents,
       title,
       content,
-      attachments,
+      attachment,
     });
     await newMessage.save();
     res.status(201).json({ message: "Message sent" });

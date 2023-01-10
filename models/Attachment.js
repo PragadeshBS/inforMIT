@@ -8,9 +8,11 @@ const attachmentSchema = mongoose.Schema(
     },
     file: {
       type: Buffer,
+      required: true,
     },
     contentType: {
       type: String,
+      required: true,
     },
   },
   { timestamps: true }

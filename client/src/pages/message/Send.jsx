@@ -4,6 +4,7 @@ import CheckboxTree from "react-checkbox-tree";
 import InputWithLabel from "../../components/form/InputWithLabel";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import UploadFile from "../../components/form/UploadFile";
 
 const Send = () => {
   const navigate = useNavigate();
@@ -20,6 +21,8 @@ const Send = () => {
 
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
+  const [fileId, setFileId] = useState(null);
+
   const departments = [
     "All departments",
     "AERO",
@@ -62,6 +65,16 @@ const Send = () => {
     return { value: year, label: year };
   });
 
+  const uploadFile = (event) => {
+    const formData = new FormData();
+    formData.append("fileName", event.target.files[0].name);
+    formData.append("file", event.target.files[0]);
+    axios.post("/api/message/attachment", formData).then((res) => {
+      setSuccess("File uploaded successfully");
+      setFileId(res.data.fileId);
+    });
+  };
+
   const submit = (e) => {
     e.preventDefault();
     console.log(title + " " + message);
@@ -82,9 +95,13 @@ const Send = () => {
         forStudents: checkedPeople.includes("students"),
         title: title,
         content: message,
+        attachment: fileId,
       })
-      .then((res) => {
+      .then(() => {
         setSuccess("Announcement made successfully");
+      })
+      .catch(() => {
+        setError("Something went wrong");
       });
   };
   return (
@@ -142,6 +159,7 @@ const Send = () => {
                 )}
               </div>
             </div>
+            <UploadFile uploadFile={uploadFile} />
             {error && <div className="alert alert-danger">{error}</div>}
             {success && <div className="alert alert-success">{success}</div>}
             <div className="text-center">

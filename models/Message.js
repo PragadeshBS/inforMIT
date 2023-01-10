@@ -26,8 +26,8 @@ const messageSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    attachments: {
-      type: [mongoose.Schema.Types.ObjectId],
+    attachment: {
+      type: mongoose.Schema.Types.ObjectId,
     },
   },
   { timestamps: true }
