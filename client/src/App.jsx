@@ -10,6 +10,7 @@ import StudentLogin from "./pages/auth/student/StudentLogin";
 import Profile from "./pages/Profile";
 import Send from "./pages/message/Send";
 import Logout from "./pages/auth/Logout";
+import { useAuthContext } from "./hooks/useAuthContext";
 
 const router = createBrowserRouter([
   {

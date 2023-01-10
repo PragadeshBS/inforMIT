@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import InputWithLabel from "../../../components/form/InputWithLabel";
 import axios from "axios";
+import { useAuthContext } from "../../../hooks/useAuthContext";
 
 const StaffLogin = () => {
+  const { user, dispatch } = useAuthContext();
   const navigate = useNavigate();
   const [staffId, setStaffId] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +25,7 @@ const StaffLogin = () => {
         password,
       })
       .then((res) => {
+        dispatch({ type: "LOGIN", payload: res.data });
         localStorage.setItem("user", JSON.stringify(res.data));
         navigate("/");
       })

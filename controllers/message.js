@@ -42,7 +42,7 @@ const getMessages = async (req, res) => {
       const messages = await Message.find({
         departments: { $in: [department] },
         forStaffs: true,
-      });
+      }).sort({ createdAt: -1 });
       return res.status(200).json({ messages });
     } else if (userType === "student") {
       const student = await Student.findOne({ email });
@@ -52,7 +52,7 @@ const getMessages = async (req, res) => {
         departments: { $in: [department] },
         forStudents: true,
         years: { $in: [year] },
-      });
+      }).sort({ createdAt: -1 });
       return res.status(200).json({ messages });
     }
     return res.status(400).json({ message: "Invalid user type" });
