@@ -61,7 +61,7 @@ const router = createBrowserRouter([
 
 function App() {
   if (window.location.href.indexOf("localhost") !== -1)
-    axios.defaults.baseURL = `http://localhost:5000`;
+    axios.defaults.baseURL = `http://localhost:3000`;
   else axios.defaults.baseURL = "/";
   return <RouterProvider router={router} />;
 }
